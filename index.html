@@ -3,44 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anisocoria Game</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Pupil Assessment and Pathology Game</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="quiz">
-        <h1>Anisocoria Diagnosis Game</h1>
-        <div id="case-description"></div>
-        <div class="answer-buttons">
-            <button class="answer-button" onclick="submitAnswer(1)">Option 1</button>
-            <button class="answer-button" onclick="submitAnswer(2)">Option 2</button>
-            <button class="answer-button" onclick="submitAnswer(3)">Option 3</button>
-            <button class="answer-button" onclick="submitAnswer(4)">Option 4</button>
-        </div>
-        <div id="result" style="display:none;">
-            <p id="result-message"></p>
-            <button onclick="displayNextCase()">Next Case</button>
-        </div>
-    </div>
+    <header>
+        <h1>Pupil Assessment and Pathology Game</h1>
+    </header>
 
-    <div class="eye-container">
-        <p>Left Pupil Size: <span id="leftPupilSize">5</span> mm</p>
-        <div class="eye" id="leftEye">
-            <div class="pupil" id="leftPupil"></div>
-        </div>
-        <input type="range" id="leftPupilSlider" min="2" max="10" value="5" oninput="adjustPupils()">
-    </div>
+    <main>
+        <section id="intro">
+            <h2>Welcome to the Pupil Assessment Game</h2>
+            <p>In this game, you will learn how to assess pupils in an A&E setting.</p>
+            <p>You'll start by learning about:</p>
+            <ul>
+                <li><strong>Direct Pupillary Response:</strong> The constriction of the pupil in response to light.</li>
+                <li><strong>Consensual Pupillary Response:</strong> The constriction of the opposite pupil when one pupil is exposed to light.</li>
+                <li><strong>Relative Afferent Pupillary Defect (RAPD):</strong> A condition where one pupil reacts less than the other when exposed to light.</li>
+            </ul>
+            <button id="startButton" onclick="startGame()">Start the Game</button>
+        </section>
 
-    <div class="eye-container">
-        <p>Right Pupil Size: <span id="rightPupilSize">5</span> mm</p>
-        <div class="eye" id="rightEye">
-            <div class="pupil" id="rightPupil"></div>
-        </div>
-        <input type="range" id="rightPupilSlider" min="2" max="10" value="5" oninput="adjustPupils()">
-    </div>
+        <section id="game" style="display:none;">
+            <h2>Assess the Patient</h2>
+            <div id="patientDisplay">
+                <p id="patientDescription"></p>
+            </div>
+            <div id="questionDisplay">
+                <h3 id="question"></h3>
+                <div id="options"></div>
+            </div>
+            <button id="nextButton" style="display:none;" onclick="nextPatient()">Next Patient</button>
+            <div id="resultDisplay"></div>
+            <div id="scoreDisplay">Score: <span id="score">0</span></div>
+        </section>
+    </main>
 
-    <div id="final-score" style="display:none;"></div>
-    <button id="restart-button" onclick="restartGame()" style="display:none;">Restart Game</button>
+    <footer>
+        <p>&copy; 2024 Pupil Assessment and Pathology Game</p>
+    </footer>
 
-    <script src="game.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
