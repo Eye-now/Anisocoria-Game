@@ -1,56 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Anisocoria Diagnosis Game</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anisocoria Assessment Game</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="game-container">
-    <header>
-      <h1>Anisocoria Diagnosis Game</h1>
-      <p>Can you diagnose the cause of anisocoria for each patient?</p>
-    </header>
-
-    <!-- Game Scenario Section -->
-    <section id="game">
-      <div id="scenario">
-        <h2>Patient Case 1</h2>
-        <p id="case-description">A 30-year-old male presents with unequal pupil sizes. The right pupil is larger in dim light...</p>
-      </div>
-
-      <!-- Interactive Pupil Adjustment Section -->
-      <div id="eye-simulation">
-        <div class="eye-container">
-          <p>Left Pupil Size: <span id="leftPupilSize">5</span> mm</p>
-          <div class="eye" id="leftEye"></div>
-          <input type="range" id="leftPupilSlider" min="2" max="10" value="5" oninput="adjustPupils()">
+    <div id="game">
+        <h1>Anisocoria Assessment Game</h1>
+        <div id="scenario"></div>
+        <div class="answer-buttons">
+            <!-- Answer buttons will be populated here dynamically -->
         </div>
-        <div class="eye-container">
-          <p>Right Pupil Size: <span id="rightPupilSize">5</span> mm</p>
-          <div class="eye" id="rightEye"></div>
-          <input type="range" id="rightPupilSlider" min="2" max="10" value="5" oninput="adjustPupils()">
-        </div>
-      </div>
+        <div id="feedback" style="display:none;"></div>
+        <button id="next-button" style="display:none;" onclick="nextScenario()">Next Scenario</button>
+    </div>
 
-      <!-- Diagnosis Quiz Section -->
-      <div id="quiz">
-        <h3>What could be the cause of this condition?</h3>
-        <button onclick="submitAnswer(1)">Physiological Anisocoria</button>
-        <button onclick="submitAnswer(2)">Horner's Syndrome</button>
-        <button onclick="submitAnswer(3)">Third Nerve Palsy</button>
-        <button onclick="submitAnswer(4)">Adie's Pupil</button>
-      </div>
-    </section>
-
-    <!-- Result Section -->
-    <section id="result" style="display: none;">
-      <h2 id="result-message"></h2>
-      <button onclick="nextCase()">Next Patient</button>
-    </section>
-  </div>
-
-  <script src="game.js"></script>
+    <script src="game.js"></script>
 </body>
 </html>
+
