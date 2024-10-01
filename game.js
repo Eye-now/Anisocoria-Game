@@ -1,102 +1,106 @@
-const scenarios = [
+let currentCase = 0; // Initialize at the start of the game
+let score = 0; // To keep track of the score
+
+const cases = [
     {
-        question: "A patient presents with anisocoria in light. What is your first assessment?",
-        options: [
-            { text: "Check for larger pupil abnormality", nextScenario: 1 },
-            { text: "Check for smaller pupil abnormality", nextScenario: 2 }
-        ],
-        feedback: "Choose wisely based on the symptoms presented."
+        description: "A 30-year-old male presents with unequal pupil sizes. The right pupil is larger in dim light...",
+        correctAnswer: 2, // Example: Horner's Syndrome
     },
     {
-        question: "Is the larger pupil abnormal?",
-        options: [
-            { text: "Yes", nextScenario: 3 },
-            { text: "No", nextScenario: 4 }
-        ],
-        feedback: "If it's larger, consider the next steps."
+        description: "A 22-year-old female presents with a slow response to light in one eye, and larger pupil on the right...",
+        correctAnswer: 4, // Example: Adie's Pupil
     },
-    {
-        question: "Is the smaller pupil abnormal?",
-        options: [
-            { text: "Yes", nextScenario: 5 },
-            { text: "No", nextScenario: 6 }
-        ],
-        feedback: "Smaller pupil can indicate different conditions."
-    },
-    {
-        question: "Consider pharmacologic mydriasis management.",
-        options: [],
-        feedback: "You've reached a conclusion. Good job!"
-    },
-    {
-        question: "Consider tonic pupil evaluation.",
-        options: [],
-        feedback: "You've reached a conclusion. Good job!"
-    },
-    {
-        question: "Consider evaluating for Horner's syndrome.",
-        options: [],
-        feedback: "You've reached a conclusion. Good job!"
-    },
-    {
-        question: "Consider possible third nerve palsy.",
-        options: [],
-        feedback: "You've reached a conclusion. Good job!"
-    },
+    // Add more cases here
 ];
 
-let currentScenario = 0;
+function submitAnswer(answer) {
+    const isCorrect = parseInt(answer) === cases[currentCase].correctAnswer;
 
-function startGame() {
-    currentScenario = 0;
-    document.getElementById("next-button").style.display = "none";
-    displayScenario();
-}
-
-function displayScenario() {
-    const scenario = scenarios[currentScenario];
-    document.getElementById("scenario").textContent = scenario.question;
-
-    const optionsContainer = document.querySelector(".answer-buttons");
-    optionsContainer.innerHTML = ""; // Clear previous options
-
-    scenario.options.forEach((option, index) => {
-        const button = document.createElement("button");
-        button.textContent = option.text;
-        button.classList.add("answer-button");
-        button.onclick = () => selectOption(index);
-        optionsContainer.appendChild(button);
-    });
-
-    document.getElementById("feedback").style.display = "none";
-}
-
-function selectOption(index) {
-    const selectedOption = scenarios[currentScenario].options[index];
-    currentScenario = selectedOption.nextScenario;
-    document.getElementById("feedback").textContent = scenarios[currentScenario].feedback;
-    document.getElementById("feedback").style.display = "block";
-    displayScenario();
-    if (!scenarios[currentScenario].options.length) {
-        document.getElementById("next-button").style.display = "block"; // Show the next button for final scenario
+    if (isCorrect) {
+        score++;
+        document.getElementById('result-message').textContent = "Correct! You've earned 1 point.";
+    } else {
+        document.getElementById('result-message').textContent = "Incorrect. The correct answer is option " + cases[currentCase].correctAnswer;
     }
-}
 
-function nextScenario() {
-    if (currentScenario < scenarios.length - 1) {
-        currentScenario++;
-        displayScenario();
-        document.getElementById("next-button").style.display = "none"; // Hide the button until it's needed
+    // After showing the result, move to the next case
+    currentCase++;
+
+    // Show the next case or end the game if there are no more cases
+    if (currentCase < cases.length) {
+        displayNextCase();
     } else {
         endGame();
     }
+
+    // Hide the quiz and show the result
+    document.getElementById('quiz').style.display = 'none';
+    document.getElementById('result').style.display = 'block';
+}
+
+function displayNextCase() {
+    const caseData = cases[currentCase];
+
+    // Update the case description on the quiz interface
+    document.getElementById('case-description').textContent = caseData.description;
+
+    // Reset the answer selection for the next question
+    resetAnswerSelection();
+
+    // Show the quiz again
+    document.getElementById('quiz').style.display = 'block';
+    document.getElementById('result').style.display = 'none';
+}
+
+function resetAnswerSelection() {
+    const answerButtons = document.querySelectorAll('.answer-button');
+    answerButtons.forEach(button => {
+        button.classList.remove('selected'); // You can add logic here if you want to manage selections
+    });
 }
 
 function endGame() {
-    document.getElementById("scenario").textContent = "Thank you for playing!";
-    document.getElementById("feedback").textContent = "You have completed the assessment!";
-    document.querySelector(".answer-buttons").innerHTML = ""; // Clear answer buttons
+    // Hide the quiz section
+    document.getElementById('quiz').style.display = 'none';
+    document.getElementById('result').style.display = 'block';
+
+    // Show the final score
+    document.getElementById('final-score').textContent = `Your final score is ${score} out of ${cases.length}.`;
+
+    // Provide a restart option
+    document.getElementById('restart-button').style.display = 'block'; // Show a restart button
 }
 
-// Start the game on page load
-document.addEventListener("DOMContentLoaded", startGame);
+function restartGame() {
+    currentCase = 0;
+    score = 0;
+    document.getElementById('final-score').textContent = ''; // Clear the final score
+
+    // Hide the restart button and show the first case
+    document.getElementById('restart-button').style.display = 'none';
+    displayNextCase();
+}
+
+function adjustPupils() {
+    const leftPupilSize = document.getElementById('leftPupilSlider').value;
+    const rightPupilSize = document.getElementById('rightPupilSlider').value;
+
+    // Update the displayed sizes
+    document.getElementById('leftPupilSize').textContent = leftPupilSize;
+    document.getElementById('rightPupilSize').textContent = rightPupilSize;
+
+    // Adjust the pupil size in the DOM
+    const leftPupil = document.getElementById('leftPupil');
+    const rightPupil = document.getElementById('rightPupil');
+
+    leftPupil.style.width = leftPupilSize * 10 + 'px';  // Scale the pupil size
+    leftPupil.style.height = leftPupilSize * 10 + 'px';
+    
+    rightPupil.style.width = rightPupilSize * 10 + 'px';
+    rightPupil.style.height = rightPupilSize * 10 + 'px';
+}
+
+// Initialize the first case
+document.addEventListener("DOMContentLoaded", function() {
+    displayNextCase();
+});
